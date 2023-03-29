@@ -25,7 +25,7 @@ jobs:
     steps:
     ## Project JDK 17 Setting
     - name: CheckOut
-    - uses: actions/checkout@v3
+      uses: actions/checkout@v3
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
