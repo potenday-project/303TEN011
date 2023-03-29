@@ -18,9 +18,8 @@ permissions:
 
 jobs:
   build:
-
-    ## NCP OS
-    runs-on: ubuntu-18.04
+  
+    runs-on: ubuntu-latest
 
     steps:
     ## Project JDK 17 Setting
