@@ -78,10 +78,6 @@ public class UserService {
         // jwt 발급
         String token = JwtTokenUtils.generateToken(user.getEmail(), secretKey, expiredTimeMs);
 
-        // 로그인 처리
-        //        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(), yjKey));
-        //        SecurityContextHolder.getContext().setAuthentication(authentication);
-
         return LoginResponse.builder()
                 .email(user.getEmail())
                 .nickname(user.getNickname())
