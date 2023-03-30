@@ -1,5 +1,6 @@
 package com.beside.ten011.user.controller;
 
+import com.beside.ten011.user.controller.dto.MyRitualResponse;
 import com.beside.ten011.user.entity.User;
 import com.beside.ten011.user.controller.dto.UserResponse;
 import com.beside.ten011.user.service.UserService;
@@ -18,8 +19,14 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("my-info")
-    public ResponseEntity<UserResponse> my(Authentication authentication) {
+    public ResponseEntity<UserResponse> myInfo(Authentication authentication) {
         return ResponseEntity.ok(
                 UserResponse.fromEntity((User) authentication.getPrincipal()));
+    }
+
+    @GetMapping("my-ritual")
+    public ResponseEntity<MyRitualResponse> myRitual(Authentication authentication) {
+        // 계산 필요
+        return ResponseEntity.ok().build();
     }
 }
