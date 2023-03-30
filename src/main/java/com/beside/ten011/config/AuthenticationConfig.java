@@ -2,7 +2,7 @@ package com.beside.ten011.config;
 
 import com.beside.ten011.config.filter.JwtTokenFilter;
 import com.beside.ten011.exception.CustomAuthenticationEntryPoint;
-import com.beside.ten011.user.UserService;
+import com.beside.ten011.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

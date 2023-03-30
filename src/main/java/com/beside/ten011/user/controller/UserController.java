@@ -1,5 +1,8 @@
-package com.beside.ten011.user;
+package com.beside.ten011.user.controller;
 
+import com.beside.ten011.user.entity.User;
+import com.beside.ten011.user.controller.dto.UserResponse;
+import com.beside.ten011.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

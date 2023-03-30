@@ -1,7 +1,7 @@
 package com.beside.ten011.config.filter;
 
-import com.beside.ten011.user.User;
-import com.beside.ten011.user.UserService;
+import com.beside.ten011.user.entity.User;
+import com.beside.ten011.user.service.UserService;
 import com.beside.ten011.util.JwtTokenUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

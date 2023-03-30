@@ -1,5 +1,6 @@
-package com.beside.ten011.user;
+package com.beside.ten011.user.controller.dto;
 
+import com.beside.ten011.user.entity.User;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

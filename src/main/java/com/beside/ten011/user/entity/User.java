@@ -1,4 +1,4 @@
-package com.beside.ten011.user;
+package com.beside.ten011.user.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

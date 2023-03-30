@@ -1,4 +1,4 @@
-package com.beside.ten011.user;
+package com.beside.ten011.user.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

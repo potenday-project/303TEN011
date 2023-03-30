@@ -1,7 +1,12 @@
-package com.beside.ten011.user;
+package com.beside.ten011.user.service;
 
 import com.beside.ten011.exception.CustomException;
 import com.beside.ten011.exception.ErrorCode;
+import com.beside.ten011.user.controller.dto.LoginResponse;
+import com.beside.ten011.user.entity.User;
+import com.beside.ten011.user.repository.UserRepository;
+import com.beside.ten011.user.service.dto.KakaoOauthToken;
+import com.beside.ten011.user.service.dto.KakaoProfile;
 import com.beside.ten011.util.JwtTokenUtils;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
