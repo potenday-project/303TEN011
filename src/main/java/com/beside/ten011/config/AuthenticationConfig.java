@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -24,14 +26,22 @@ public class AuthenticationConfig {
     private String key;
 
     @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.authorizeHttpRequests()
-                .requestMatchers("/oauth/kakao/redirect").permitAll()
-                .requestMatchers("/api/**").authenticated()
+        http.csrf().disable()
+                .formLogin().disable()
+                .httpBasic().disable()
+                .cors();
+
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .authorizeHttpRequests()
+                .requestMatchers("/api/hcheck", "/oauth/kakao/redirect").permitAll()
+                .requestMatchers("/api/**").authenticated()
                 .and()
                 .addFilterBefore(new JwtTokenFilter(key, userService),
                         UsernamePasswordAuthenticationFilter.class)
