@@ -39,8 +39,7 @@ public class UserController {
 
     @PostMapping("withdraw")
     public ResponseEntity<Void> withdraw(Authentication authentication) {
-        // TODO 탈퇴
-        // 연결해지, 로그아웃, 탈퇴(회원 삭제) -> 외래키인데 같이 삭제되면 좋을것같은데
+        userService.withdraw(authentication);
         return ResponseEntity.ok().build();
     }
 }

@@ -166,12 +166,20 @@ public class UserService {
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
     }
 
-    @Transactional
     public void logout(Authentication authentication) {
         // Redis에서 해당 User email로 저장된 Token 이 있는지 여부를 확인 후에 있을 경우 삭제를 한다.
         if (redisTemplate.opsForValue().get("RT:" + authentication.getName()) != null) {
             // Token을 삭제
             redisTemplate.delete("RT:" + authentication.getName());
         }
+    }
+
+    @Transactional
+    public void withdraw(Authentication authentication) {
+        // TODO 카카오 연결 해지
+        // 로그아웃
+        logout(authentication);
+        // 회원 탈퇴
+        userRepository.deleteByEmail(authentication.getName());
     }
 }
