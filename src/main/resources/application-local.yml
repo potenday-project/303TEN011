@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ENC(oufIc2l5+evRFkiWJy5aUzaFdOdS7rZJBfqjR4QzY38LfwSJJHEGCUFs4/YWUm6tUEAp7sgY+dHVi0Vfmx1BlhLogyQeJ3shH4rmB6u1FiHHJUSH0YWZRvrXQMGe67RSyZTpVZE9Yu87SE67uyzmE4xH6rLZSNxTwS3GgtnQh3M/g0jHaciyzQ==)
-    username: ENC(UsCUXQ0ZfmS8hidfiDks0Q==)
-    password: ENC(khmN+yjkZj8P4f3sSQGz7OJpiKwbAPUC)
+    url: ENC(bB5a2Z8aIJBnnF16l7a68rAK9pySKPoH7/vShHm1rb3J4zwbP6eEfN7fy14OoLoeBzvhxgNvEKAFiRShrZ7pRIenADLrHpQNt6egbSDajtY1BcWv2aO4KqGv6p0VJv6AHx8j+xSNL+Qp0c/+8PYNq6ELVAu3Sl7gyrUpc40xc8yebMCINO/Dl0E4IC6xkXxqvIKnZaBcbgh8zNwNlvMIEQ==)
+    username: ENC(D7CpnyQGSjlaJ047DdjBrImPcf5LSHtd6PaoXnMY8b5JIjfTWTCvQc/yb9v40Hce)
+    password: ENC(nmDgDDUW6EJg/EpVwcqJqvStKFbQLtKpounFiorCAlfKH2yCHQJXJrEpx5H6HWX1)
 
   redis:
     host: localhost
