@@ -1,0 +1,21 @@
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+
+spring:
+  profiles:
+    active: local
+
+social:
+  kakao:
+    client-id: ENC(jMqICCW/5f7YBLdMCBpbEimnbTzeddagFyjUC+rr8Qv6om0JQWvG8o/a/RX8saRp)
+    redirect: /oauth/kakao/redirect
+    url:
+      token: https://kauth.kakao.com/oauth/token
+      api-host: https://kapi.kakao.com
+      profile: /v2/user/me
+      unlink: /v1/user/unlink
+
+jwt:
+  secret-key: ENC(51W07X4JrpX/83xyQHH7L7UGclUfy4ZkhsES3yamRcXQlEsHunKjpm6dmI3qIjky/h965di4gOc=)
+  token.expired-time-ms: 43200000 # 12hours

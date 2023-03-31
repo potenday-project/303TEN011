@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ENC(oufIc2l5+evRFkiWJy5aUzaFdOdS7rZJBfqjR4QzY38LfwSJJHEGCUFs4/YWUm6tUEAp7sgY+dHVi0Vfmx1BlhLogyQeJ3shH4rmB6u1FiHHJUSH0YWZRvrXQMGe67RSyZTpVZE9Yu87SE67uyzmE4xH6rLZSNxTwS3GgtnQh3M/g0jHaciyzQ==)
+    username: ENC(UsCUXQ0ZfmS8hidfiDks0Q==)
+    password: ENC(khmN+yjkZj8P4f3sSQGz7OJpiKwbAPUC)
+
+  redis:
+    host: localhost
+    port: 6379
+
+  sql:
+    init:
+      mode: always
+
+url:
+  base: http://localhost:8080
