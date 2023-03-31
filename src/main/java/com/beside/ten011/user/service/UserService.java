@@ -12,13 +12,17 @@ import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
@@ -27,6 +31,8 @@ import org.springframework.web.client.RestTemplate;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Value("${social.kakao.url.api-host}")
     private String kakaoHostUrl;
@@ -77,6 +83,9 @@ public class UserService {
 
         // jwt 발급
         String token = JwtTokenUtils.generateToken(user.getEmail(), secretKey, expiredTimeMs);
+
+        //redis에 RT:이메일(key) / 토큰(value) 형태로 리프레시 토큰 저장하기
+        redisTemplate.opsForValue().set("RT:" + user.getEmail(), token, expiredTimeMs, TimeUnit.MILLISECONDS);
 
         return LoginResponse.builder()
                 .email(user.getEmail())
@@ -152,9 +161,17 @@ public class UserService {
         }
     }
 
-
     public User loadUserByUserName(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    }
+
+    @Transactional
+    public void logout(Authentication authentication) {
+        // Redis에서 해당 User email로 저장된 Token 이 있는지 여부를 확인 후에 있을 경우 삭제를 한다.
+        if (redisTemplate.opsForValue().get("RT:" + authentication.getName()) != null) {
+            // Token을 삭제
+            redisTemplate.delete("RT:" + authentication.getName());
+        }
     }
 }

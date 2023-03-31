@@ -9,10 +9,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -23,6 +25,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final String key;
     private final UserService userService;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -43,13 +46,17 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
             // 토큰에서 email 추출
             String userEmail = JwtTokenUtils.getEmail(token, key);
-            // user 유효 확인
-            User user = userService.loadUserByUserName(userEmail);
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
+            // Redis에 해당 accessToken 로그인 여부 확인
+            String isPresent = (String) redisTemplate.opsForValue().get("RT:" + userEmail);
+            // 로그인 되어있다면 실행
+            if (!ObjectUtils.isEmpty(isPresent)) {
+                // user 유효 확인
+                User user = userService.loadUserByUserName(userEmail);
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         } catch (Exception e) {
             log.error("Error occurs while validating. {}", e.toString());
             filterChain.doFilter(request, response);
