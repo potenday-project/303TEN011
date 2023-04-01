@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/archives")
@@ -78,10 +80,10 @@ public class ArchiveController {
      * @return
      */
     @PostMapping
-    public ResponseEntity<Void> saveArchive(Authentication authentication,
-                                            @RequestBody ArchiveRequest request) {
-        archiveService.saveArchive((User) authentication.getPrincipal(), request);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Map<String, Long>> saveArchive(Authentication authentication,
+                                                         @RequestBody ArchiveRequest request) {
+        Long saveArchiveId = archiveService.saveArchive((User) authentication.getPrincipal(), request);
+        return ResponseEntity.ok(Map.of("archiveId", saveArchiveId));
     }
 
     /**
@@ -93,12 +95,12 @@ public class ArchiveController {
      * @return
      */
     @PatchMapping("{archiveId}")
-    public ResponseEntity<Void> modifyArchive(Authentication authentication,
-                                              @RequestBody ArchiveRequest request,
-                                              @PathVariable("archiveId") Long archiveId) {
+    public ResponseEntity<Map<String, Long>> modifyArchive(Authentication authentication,
+                                                           @RequestBody ArchiveRequest request,
+                                                           @PathVariable("archiveId") Long archiveId) {
 
-        archiveService.modifyArchive((User) authentication.getPrincipal(), request, archiveId);
-        return ResponseEntity.ok().build();
+        Long modifyArchiveId = archiveService.modifyArchive((User) authentication.getPrincipal(), request, archiveId);
+        return ResponseEntity.ok(Map.of("archiveId", modifyArchiveId));
     }
 
     /**

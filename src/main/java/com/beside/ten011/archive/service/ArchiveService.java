@@ -5,6 +5,8 @@ import com.beside.ten011.archive.controller.dto.ArchiveResponse;
 import com.beside.ten011.archive.entity.Archive;
 import com.beside.ten011.archive.repository.ArchiveRepository;
 import com.beside.ten011.archive.repository.ArchiveSpec;
+import com.beside.ten011.exception.CustomException;
+import com.beside.ten011.exception.ErrorCode;
 import com.beside.ten011.user.controller.dto.MyRitualResponse;
 import com.beside.ten011.user.entity.User;
 import com.beside.ten011.util.PageCustom;
@@ -45,8 +47,8 @@ public class ArchiveService {
     }
 
     @Transactional
-    public void saveArchive(User user, ArchiveRequest request) {
-        Archive archive = Archive.builder()
+    public Long saveArchive(User user, ArchiveRequest request) {
+        Archive saveArchive = archiveRepository.save(Archive.builder()
                 .user(user)
                 .title(request.getTitle())
                 .author(request.getAuthor())
@@ -55,17 +57,19 @@ public class ArchiveService {
                 .backgroundColor(request.getBackgroundColor())
                 .fontStyle(request.getFontStyle())
                 .fontColor(request.getFontColor())
-                .build();
-        archiveRepository.save(archive);
+                .build());
+        return saveArchive.getId();
     }
 
     @Transactional
-    public void modifyArchive(User user, ArchiveRequest request, Long archiveId) {
-        getArchive(user, archiveId)
-                .ifPresent(archive -> archive.modify(request.getTitle(), request.getAuthor(), request.getContent(),
-                        request.getImageSize(), request.getBackgroundColor(),
-                        request.getFontStyle(), request.getFontColor()
-                ));
+    public Long modifyArchive(User user, ArchiveRequest request, Long archiveId) {
+        return getArchive(user, archiveId)
+                .map(archive ->
+                        archive.modify(request.getTitle(), request.getAuthor(), request.getContent(),
+                                request.getImageSize(), request.getBackgroundColor(),
+                                request.getFontStyle(), request.getFontColor()
+                        ).getId()
+                ).orElseThrow(() -> new CustomException(ErrorCode.ARCHIVE_NOT_FOUND));
     }
 
     @Transactional
