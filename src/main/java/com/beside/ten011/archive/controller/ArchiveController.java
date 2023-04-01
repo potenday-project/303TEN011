@@ -31,7 +31,7 @@ public class ArchiveController {
     public ResponseEntity<Page<ArchiveResponse>> getArchivePages(
             Authentication authentication,
             Pageable pageable,
-            @RequestParam String title) {
+            @RequestParam(required = false) String title) {
 
         // TODO 검색 조건 수정
         return ResponseEntity.ok(
