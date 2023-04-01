@@ -14,12 +14,11 @@ create table archive
 (
     id int AUTO_INCREMENT,
     user_id int not null,
-    product_id int not null,
     title varchar(255) not null,
     author varchar(25) not null,
     content text not null,
     image_size varchar(25) not null,
-    backgroud_image varchar(25) not null,
+    background_color varchar(25) not null,
     font_style varchar(50) not null,
     font_color varchar(25) not null,
     created_dt datetime not null,

@@ -19,6 +19,9 @@ repositories {
 }
 
 dependencies {
+	// https://mvnrepository.com/artifact/org.jasypt/jasypt
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -46,4 +49,5 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+	systemProperty "jasypt.encryptor.password", System.getenv("jasypt.encryptor.password")
 }

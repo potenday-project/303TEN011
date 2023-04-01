@@ -1,5 +1,6 @@
 package com.beside.ten011.user.controller;
 
+import com.beside.ten011.archive.service.ArchiveService;
 import com.beside.ten011.user.controller.dto.MyRitualResponse;
 import com.beside.ten011.user.controller.dto.UserResponse;
 import com.beside.ten011.user.entity.User;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+    private final ArchiveService archiveService;
 
     @GetMapping("my-info")
     public ResponseEntity<UserResponse> myInfo(Authentication authentication) {
@@ -27,8 +29,8 @@ public class UserController {
 
     @GetMapping("my-ritual")
     public ResponseEntity<MyRitualResponse> myRitual(Authentication authentication) {
-        // TODO 계산 필요
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(archiveService.getMyRitual((User) authentication.getPrincipal())
+        );
     }
 
     @PostMapping("logout")
