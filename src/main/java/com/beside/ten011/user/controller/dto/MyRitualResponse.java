@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class MyRitualResponse {
     private Long totalBookCount; // 읽은 책 권수
     private Long totalArchiveCount; // 기록한 문장
-    private Long continuityLoginDay;// 연속해서 만난날(연속출석일)
+    private Long continuityPostDay;// 연속해서 만난날(연속작성일)
 }

@@ -1,6 +1,7 @@
 package com.beside.ten011.archive.repository;
 
 import com.beside.ten011.archive.entity.Archive;
+import com.beside.ten011.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,6 +22,8 @@ public interface ArchiveRepository extends JpaRepository<Archive, Long>, JpaSpec
     Page<Archive> findAll(Specification<Archive> spec, Pageable pageable);
 
     // TODO 수정
-    @Query(value = "select count(distinct a.title) from Archive a")
-    Long countTotalBook();
+    @Query(value = "select count(distinct a.title) from Archive a where a.user = :user")
+    Long countTotalBookByUser(@Param("user") User user);
+
+    Long countByUserId(@Param("userId") Long userId);
 }

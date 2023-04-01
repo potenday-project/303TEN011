@@ -29,10 +29,7 @@ public class UserController {
 
     @GetMapping("my-ritual")
     public ResponseEntity<MyRitualResponse> myRitual(Authentication authentication) {
-        MyRitualResponse myRitual = archiveService.getMyRitual(authentication);
-        // TODO 출석일 추가
-        return ResponseEntity.ok(
-                myRitual
+        return ResponseEntity.ok(archiveService.getMyRitual((User) authentication.getPrincipal())
         );
     }
 

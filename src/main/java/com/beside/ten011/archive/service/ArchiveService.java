@@ -79,9 +79,9 @@ public class ArchiveService {
     }
 
     @Transactional(readOnly = true)
-    public MyRitualResponse getMyRitual(Authentication authentication) {
-        long totalArchiveCount = archiveRepository.count();
-        long totalBookCount = archiveRepository.countTotalBook();
+    public MyRitualResponse getMyRitual(User user) {
+        long totalArchiveCount = archiveRepository.countByUserId(user.getId());
+        long totalBookCount = archiveRepository.countTotalBookByUser(user);
         return MyRitualResponse.builder()
                 .totalArchiveCount(totalArchiveCount)
                 .totalBookCount(totalBookCount)
