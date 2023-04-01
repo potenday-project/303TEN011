@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -80,11 +79,10 @@ public class ArchiveService {
 
     @Transactional(readOnly = true)
     public MyRitualResponse getMyRitual(User user) {
-        long totalArchiveCount = archiveRepository.countByUserId(user.getId());
-        long totalBookCount = archiveRepository.countTotalBookByUser(user);
         return MyRitualResponse.builder()
-                .totalArchiveCount(totalArchiveCount)
-                .totalBookCount(totalBookCount)
+                .totalArchiveCount(archiveRepository.countByUserId(user.getId()))
+                .totalBookCount(archiveRepository.countTotalBookByUser(user))
+                .continuityPostDay(archiveRepository.countContinuityPostDay(user.getId()))
                 .build();
     }
 }

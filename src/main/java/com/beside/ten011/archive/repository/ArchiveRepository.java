@@ -26,4 +26,25 @@ public interface ArchiveRepository extends JpaRepository<Archive, Long>, JpaSpec
     Long countTotalBookByUser(@Param("user") User user);
 
     Long countByUserId(@Param("userId") Long userId);
+
+    // TODO 쿼리문 수정 필요
+    @Query(value = """
+            select continuity from (
+            	select max(created_dt) as '종료일'
+            	, count(*) as continuity
+            	from(
+            	select created_dt
+            			, row_number() over(order by created_dt) as 'idx'
+            			, datediff(CURDATE(), created_dt) as 'diff_day'
+            			, (row_number() over(order by created_dt) + datediff(CURDATE(), created_dt)) as 'consecutive_day'
+            			from (
+            				select distinct date_format(created_dt,'%y-%m-%d') as created_dt from archive where user_id = :userId
+            			) a
+            	 ) b
+            	 group by consecutive_day
+             ) c
+             where 종료일 = curdate() or 종료일 = subdate(curdate(), 1)
+            """
+            , nativeQuery = true)
+    Long countContinuityPostDay(@Param("userId") Long userId);
 }
