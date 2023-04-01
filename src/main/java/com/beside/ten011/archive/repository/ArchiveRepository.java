@@ -19,4 +19,8 @@ public interface ArchiveRepository extends JpaRepository<Archive, Long>, JpaSpec
     Optional<Archive> findRandomArchive(@Param("userId") Long userId);
 
     Page<Archive> findAll(Specification<Archive> spec, Pageable pageable);
+
+    // TODO 수정
+    @Query(value = "select count(distinct a.title) from Archive a")
+    Long countTotalBook();
 }

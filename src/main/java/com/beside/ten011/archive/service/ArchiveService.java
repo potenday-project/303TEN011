@@ -4,11 +4,13 @@ import com.beside.ten011.archive.controller.dto.ArchiveRequest;
 import com.beside.ten011.archive.entity.Archive;
 import com.beside.ten011.archive.repository.ArchiveRepository;
 import com.beside.ten011.archive.repository.ArchiveSpec;
+import com.beside.ten011.user.controller.dto.MyRitualResponse;
 import com.beside.ten011.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -66,5 +68,15 @@ public class ArchiveService {
     public void deleteArchive(User user, Long archiveId) {
         getArchive(user, archiveId)
                 .ifPresent(archiveRepository::delete);
+    }
+
+    @Transactional(readOnly = true)
+    public MyRitualResponse getMyRitual(Authentication authentication) {
+        long totalArchiveCount = archiveRepository.count();
+        long totalBookCount = archiveRepository.countTotalBook();
+        return MyRitualResponse.builder()
+                .totalArchiveCount(totalArchiveCount)
+                .totalBookCount(totalBookCount)
+                .build();
     }
 }
