@@ -35,7 +35,7 @@ public class ArchiveService {
 
     @Transactional(readOnly = true)
     public Optional<Archive> getArchive(User user, Long archiveId) {
-        return archiveRepository.findByIdAndUserId(user.getId(), archiveId);
+        return archiveRepository.findByIdAndUserId(archiveId, user.getId());
     }
 
     @Transactional
