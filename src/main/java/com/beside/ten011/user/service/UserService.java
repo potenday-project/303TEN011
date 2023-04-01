@@ -49,9 +49,6 @@ public class UserService {
     @Value("${social.kakao.client-id}")
     private String kakaoClientId;
 
-    @Value("${url.base}")
-    private String baseUrl;
-
     @Value("${jwt.secret-key}")
     private String secretKey;
 
@@ -141,7 +138,7 @@ public class UserService {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code"); // 고정
         params.add("client_id", kakaoClientId);
-        params.add("redirect_uri", baseUrl + kakaoRedirectUrl);
+        params.add("redirect_uri", kakaoRedirectUrl);
         params.add("code", code);
 
         HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);

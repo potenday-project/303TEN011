@@ -10,7 +10,7 @@ spring:
 social:
   kakao:
     client-id: ENC(53zvfZ985XbvizZnWAABGTc9uV5UgHGIhtbOqw00p2q7GBxk3pjJ2qJfnR4q8ZcTWRpasjaa7Slw6oyDN+IOU0YtoQ1TrsiE+J2/BOv/ujY=)
-    redirect: /oauth/kakao/redirect
+    redirect: http://localhost:3000/oauth/kakao/redirect
     url:
       token: https://kauth.kakao.com/oauth/token
       api-host: https://kapi.kakao.com
