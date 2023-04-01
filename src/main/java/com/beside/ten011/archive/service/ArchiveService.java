@@ -1,11 +1,13 @@
 package com.beside.ten011.archive.service;
 
 import com.beside.ten011.archive.controller.dto.ArchiveRequest;
+import com.beside.ten011.archive.controller.dto.ArchiveResponse;
 import com.beside.ten011.archive.entity.Archive;
 import com.beside.ten011.archive.repository.ArchiveRepository;
 import com.beside.ten011.archive.repository.ArchiveSpec;
 import com.beside.ten011.user.controller.dto.MyRitualResponse;
 import com.beside.ten011.user.entity.User;
+import com.beside.ten011.util.PageCustom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -26,8 +28,10 @@ public class ArchiveService {
     private final ArchiveRepository archiveRepository;
 
     @Transactional(readOnly = true)
-    public Page<Archive> getArchivePage(User user, Pageable pageable, String title) {
-        return archiveRepository.findAll(ArchiveSpec.searchWith(user.getId(), title), pageable);
+    public PageCustom<ArchiveResponse> getArchiveResponsePageCustom(User user, Pageable pageable, String title) {
+        Page<ArchiveResponse> responsePage = archiveRepository.findAll(ArchiveSpec.searchWith(user.getId(), title), pageable)
+                .map(ArchiveResponse::fromEntity);
+        return new PageCustom<>(responsePage.getContent(), responsePage.getPageable(), responsePage.getTotalElements());
     }
 
     @Transactional(readOnly = true)

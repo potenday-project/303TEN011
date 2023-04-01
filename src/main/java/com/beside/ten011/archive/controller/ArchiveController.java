@@ -6,8 +6,8 @@ import com.beside.ten011.archive.service.ArchiveService;
 import com.beside.ten011.exception.CustomException;
 import com.beside.ten011.exception.ErrorCode;
 import com.beside.ten011.user.entity.User;
+import com.beside.ten011.util.PageCustom;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -28,15 +28,14 @@ public class ArchiveController {
      * @return
      */
     @GetMapping
-    public ResponseEntity<Page<ArchiveResponse>> getArchivePages(
+    public ResponseEntity<PageCustom<ArchiveResponse>> getArchivePages(
             Authentication authentication,
             Pageable pageable,
             @RequestParam(required = false) String title) {
 
         // TODO 검색 조건 수정
         return ResponseEntity.ok(
-                archiveService.getArchivePage((User) authentication.getPrincipal(), pageable, title)
-                        .map(ArchiveResponse::fromEntity)
+                archiveService.getArchiveResponsePageCustom((User) authentication.getPrincipal(), pageable, title)
         );
     }
 
