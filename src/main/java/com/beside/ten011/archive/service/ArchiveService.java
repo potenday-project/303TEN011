@@ -56,6 +56,7 @@ public class ArchiveService {
                 .backgroundColor(request.getBackgroundColor())
                 .fontStyle(request.getFontStyle())
                 .fontColor(request.getFontColor())
+                .thumbnailUrl(request.getThumbnailUrl())
                 .build());
         return saveArchive.getId();
     }
@@ -66,7 +67,8 @@ public class ArchiveService {
                 .map(archive ->
                         archive.modify(request.getTitle(), request.getAuthor(), request.getContent(),
                                 request.getImageSize(), request.getBackgroundColor(),
-                                request.getFontStyle(), request.getFontColor()
+                                request.getFontStyle(), request.getFontColor(),
+                                request.getThumbnailUrl()
                         ).getId()
                 ).orElseThrow(() -> new CustomException(ErrorCode.ARCHIVE_NOT_FOUND));
     }

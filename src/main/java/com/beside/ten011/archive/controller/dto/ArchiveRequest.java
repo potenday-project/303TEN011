@@ -13,4 +13,5 @@ public class ArchiveRequest {
     private String backgroundColor;
     private String fontStyle;
     private String fontColor;
+    private String thumbnailUrl;
 }
