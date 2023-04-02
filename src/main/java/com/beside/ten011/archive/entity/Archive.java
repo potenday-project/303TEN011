@@ -37,10 +37,10 @@ public class Archive extends BaseTimeEntity {
 
     private String fontColor;
 
-    private String thumbnailUrl;
+    private String thumbnail;
 
     public Archive modify(String title, String author, String content, String imageSize,
-                       String backgroundColor, String fontStyle, String fontColor, String thumbnailUrl) {
+                       String backgroundColor, String fontStyle, String fontColor, String thumbnail) {
         this.title = StringUtils.defaultIfBlank(title, this.title);
         this.author = StringUtils.defaultIfBlank(author, this.author);
         this.content = StringUtils.defaultIfBlank(content, this.content);
@@ -48,7 +48,7 @@ public class Archive extends BaseTimeEntity {
         this.backgroundColor = StringUtils.defaultIfBlank(backgroundColor, this.backgroundColor);
         this.fontStyle = ObjectUtils.defaultIfNull(fontStyle, this.fontStyle);
         this.fontColor = StringUtils.defaultIfBlank(fontColor, this.fontColor);
-        this.thumbnailUrl = StringUtils.defaultIfBlank(thumbnailUrl, this.thumbnailUrl);
+        this.thumbnail = StringUtils.defaultIfBlank(thumbnail, this.thumbnail);
         return this;
     }
 }

@@ -21,7 +21,7 @@ create table archive
     background_color varchar(25) not null,
     font_style varchar(50) not null,
     font_color varchar(25) not null,
-    thumbnail_url varchar(500) not null,
+    thumbnail varchar(500) not null,
     created_dt datetime not null,
     modified_dt datetime,
 
