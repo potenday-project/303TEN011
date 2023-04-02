@@ -29,21 +29,18 @@ public interface ArchiveRepository extends JpaRepository<Archive, Long>, JpaSpec
 
     // TODO 쿼리문 수정 필요
     @Query(value = """
-            select continuity from (
-            	select max(created_dt) as '종료일'
-            	, count(*) as continuity
-            	from(
-            	select created_dt
-            			, row_number() over(order by created_dt) as 'idx'
-            			, datediff(CURDATE(), created_dt) as 'diff_day'
-            			, (row_number() over(order by created_dt) + datediff(CURDATE(), created_dt)) as 'consecutive_day'
-            			from (
-            				select distinct date_format(created_dt,'%y-%m-%d') as created_dt from archive where user_id = :userId
-            			) a
-            	 ) b
-            	 group by consecutive_day
-             ) c
-             where 종료일 = curdate() or 종료일 = subdate(curdate(), 1)
+                select continuity from (
+                    select max(created_dt) as '종료일'
+                    , count(*) as continuity
+                    from(
+                        select ((@row_number \\:= @row_number + 1) + datediff(CURDATE(), created_dt)) as 'consecutive_day', created_dt
+                        FROM (select distinct date_format(created_dt,'%y-%m-%d') as created_dt from archive where user_id = :userId) a,
+                        (SELECT @row_number \\:= 0) AS x
+                        ORDER BY created_dt DESC
+                     ) b
+                     group by consecutive_day
+                 ) c
+                 where 종료일 = curdate() or 종료일 = subdate(curdate(), 1)
             """
             , nativeQuery = true)
     Long countContinuityPostDay(@Param("userId") Long userId);
