@@ -8,7 +8,7 @@ create table user
     nickname  varchar(25) not null,
 
     primary key (ID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table archive
 (
@@ -21,10 +21,11 @@ create table archive
     background_color varchar(25) not null,
     font_style varchar(50) not null,
     font_color varchar(25) not null,
+    thumbnail_url varchar(500) not null,
     created_dt datetime not null,
     modified_dt datetime,
 
     primary key (id),
     foreign key (user_id) REFERENCES user (id)
 
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
