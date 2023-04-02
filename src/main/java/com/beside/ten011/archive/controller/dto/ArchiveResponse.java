@@ -21,6 +21,7 @@ public class ArchiveResponse {
     private String backgroundColor;
     private String fontStyle;
     private String fontColor;
+    private String thumbnailUrl;
     @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
     private LocalDateTime createdDt;
     @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
@@ -36,6 +37,7 @@ public class ArchiveResponse {
                 .backgroundColor(archive.getBackgroundColor())
                 .fontStyle(archive.getFontStyle())
                 .fontColor(archive.getFontColor())
+                .thumbnailUrl(archive.getThumbnailUrl())
                 .createdDt(archive.getCreatedDt())
                 .modifiedDt(archive.getModifiedDt())
                 .build();
