@@ -50,6 +50,8 @@ public class AuthenticationConfig {
                 .exceptionHandling()
                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint());
 
+        http.requiresChannel(channel -> channel.anyRequest().requiresSecure());
+
         return http.build();
     }
 }
