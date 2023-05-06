@@ -20,3 +20,9 @@ social:
 jwt:
   secret-key: ENC(MPSWr6OLIUKwm74kQmfFEykjCItVsPDbcYGf9c73tcZzSskExkQKL3mgoYpjmtgntxGNxyxvdTHBTVk7eTt2hiPTUI45PtrN0RNO7H7i/T4=)
   token.expired-time-ms: 43200000 # 12hours
+
+server:
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: ENC(zqK9JbEdY7nUozM5ddQmU1HoexziteIi)
+    key-store-type: PKCS12
