@@ -1,5 +1,6 @@
 package com.beside.ten011.user.service;
 
+import com.beside.ten011.archive.repository.ArchiveRepository;
 import com.beside.ten011.exception.CustomException;
 import com.beside.ten011.exception.ErrorCode;
 import com.beside.ten011.user.controller.dto.LoginResponse;
@@ -31,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ArchiveRepository archiveRepository;
 
     private final RedisTemplate<String, Object> redisTemplate;
 
@@ -189,6 +191,8 @@ public class UserService {
     @Transactional
     public void withdraw(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
+        // 아카이브 삭제
+        archiveRepository.deleteByUserId(user.getId());
         // 로그아웃
         logout(authentication);
         // 카카오 연결 해지
