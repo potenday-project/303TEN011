@@ -43,8 +43,14 @@ public class UserService {
     @Value("${social.kakao.url.profile}")
     private String kakaoProfileUrl;
 
+    @Value("${social.kakao.url.unlink}")
+    private String kakaoUnlinkUrl;
+
     @Value("${social.kakao.redirect}")
     private String kakaoRedirectUrl;
+
+    @Value("${social.kakao.admin-key}")
+    private String kakaoAdminKey;
 
     @Value("${social.kakao.client-id}")
     private String kakaoClientId;
@@ -75,8 +81,12 @@ public class UserService {
                             User.builder()
                                     .email(kakaoProfile.getKakao_account().getEmail())
                                     .nickname(kakaoProfile.getProperties().getNickname())
+                                    .kakaoId(kakaoProfile.getId())
                                     .build());
                 });
+
+        // TODO 임시코드 추후 삭제 필요
+        user.tmpUpdateKakaoId(kakaoProfile.getId());
 
         // jwt 발급
         String token = JwtTokenUtils.generateToken(user.getEmail(), secretKey, expiredTimeMs);
@@ -171,12 +181,52 @@ public class UserService {
         }
     }
 
+    /**
+     * 회원탈퇴
+     *
+     * @param authentication
+     */
     @Transactional
     public void withdraw(Authentication authentication) {
-        // TODO 카카오 연결 해지
+        User user = (User) authentication.getPrincipal();
         // 로그아웃
         logout(authentication);
+        // 카카오 연결 해지
+        unlinkKakao(user.getKakaoId());
         // 회원 탈퇴
         userRepository.deleteByEmail(authentication.getName());
+    }
+
+    /**
+     * 카카오 연결 끊기
+     *
+     * @param kakaoId
+     * @return
+     */
+    public boolean unlinkKakao(Long kakaoId) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.set("Authorization", "KakaoAK " + kakaoAdminKey);
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("target_id_type", "user_id"); // 고정
+        params.add("target_id", String.valueOf(kakaoId));
+
+        HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                kakaoHostUrl + kakaoUnlinkUrl,
+                HttpMethod.POST,
+                kakaoTokenRequest,
+                String.class
+        );
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return true;
+        } else {
+            throw new CustomException(ErrorCode.KAKAO_TOKEN_ERROR);
+        }
     }
 }
