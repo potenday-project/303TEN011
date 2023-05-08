@@ -14,6 +14,8 @@ import java.util.Optional;
 
 public interface ArchiveRepository extends JpaRepository<Archive, Long>, JpaSpecificationExecutor<Archive> {
 
+    void deleteByUserId(Long userId);
+
     Optional<Archive> findByIdAndUserId(Long id, Long userId);
 
     @Query(value = "select * from archive a where a.user_id = :userId order by rand() limit 1", nativeQuery = true)

@@ -32,7 +32,7 @@ jobs:
         files: ./src/main/resources/application.yml
       env:
         jasypt.encryptor.password: ${{ secrets.JASYPT_PW }}
-        server.ssl.key-store-password: ${{ secrets.JASYPT_PW }}
+        server.ssl.key-store-password: ${{ secrets.SSL_PW }}
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle

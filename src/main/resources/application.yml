@@ -9,6 +9,7 @@ spring:
 
 social:
   kakao:
+    admin-key: ENC(lSSZ5hh1ijlA26Ye2nbJ5VNyj0jgZXz3iDI/amlMVv/JTSvigDL4O7/y++DLLdHw5c+caFKH45qtVa4JeMAvERbJY7mfpiBHLg8jkM4L4Do=)
     client-id: ENC(53zvfZ985XbvizZnWAABGTc9uV5UgHGIhtbOqw00p2q7GBxk3pjJ2qJfnR4q8ZcTWRpasjaa7Slw6oyDN+IOU0YtoQ1TrsiE+J2/BOv/ujY=)
     redirect: http://localhost:3000/oauth/kakao/redirect
     url:
