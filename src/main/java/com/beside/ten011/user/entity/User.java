@@ -30,6 +30,8 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Archive> archives = new ArrayList<>();
 
+    private Long kakaoId;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("USER"));
@@ -63,5 +65,10 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
+    }
+
+    // TODO 임시코드 추후삭제필요
+    public void tmpUpdateKakaoId(Long id) {
+        this.kakaoId = id;
     }
 }
