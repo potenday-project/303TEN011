@@ -67,8 +67,4 @@ public class User implements UserDetails {
         return false;
     }
 
-    // TODO 임시코드 추후삭제필요
-    public void tmpUpdateKakaoId(Long id) {
-        this.kakaoId = id;
-    }
 }

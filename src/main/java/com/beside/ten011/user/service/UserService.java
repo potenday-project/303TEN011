@@ -87,9 +87,6 @@ public class UserService {
                                     .build());
                 });
 
-        // TODO 임시코드 추후 삭제 필요
-        user.tmpUpdateKakaoId(kakaoProfile.getId());
-
         // jwt 발급
         String token = JwtTokenUtils.generateToken(user.getEmail(), secretKey, expiredTimeMs);
 
