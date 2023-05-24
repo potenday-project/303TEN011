@@ -6,13 +6,15 @@ import com.beside.ten011.archive.service.ArchiveService;
 import com.beside.ten011.exception.CustomException;
 import com.beside.ten011.exception.ErrorCode;
 import com.beside.ten011.user.entity.User;
-import com.beside.ten011.util.PageCustom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -30,15 +32,18 @@ public class ArchiveController {
      * @return
      */
     @GetMapping
-    public ResponseEntity<PageCustom<ArchiveResponse>> getArchivePages(
+    public ResponseEntity<Map<String, Object>> getArchivePages(
             Authentication authentication,
-            Pageable pageable,
+            @PageableDefault(sort = "createdDt", direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam(required = false) Integer year,
+            @RequestParam(required = false) Integer month,
             @RequestParam(required = false) String title) {
 
+        Map<String, Object> map = new HashMap<>();
+        map.put("totalCreationDate", archiveService.getTotalCreationDates((User) authentication.getPrincipal()));
+        map.put("archives", archiveService.getArchiveResponsePageCustom((User) authentication.getPrincipal(), pageable, title, year, month));
         // TODO 검색 조건 수정
-        return ResponseEntity.ok(
-                archiveService.getArchiveResponsePageCustom((User) authentication.getPrincipal(), pageable, title)
-        );
+        return ResponseEntity.ok(map);
     }
 
     /**

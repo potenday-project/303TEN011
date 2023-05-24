@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ArchiveRepository extends JpaRepository<Archive, Long>, JpaSpecificationExecutor<Archive> {
@@ -46,4 +47,8 @@ public interface ArchiveRepository extends JpaRepository<Archive, Long>, JpaSpec
             """
             , nativeQuery = true)
     Long countContinuityPostDay(@Param("userId") Long userId);
+
+    @Query(value = "select distinct function('date_format', createdDt, '%Y-%m') as date" +
+            " from Archive a where a.user = :user")
+    List<String> getTotalCreationDates(@Param(value = "user") User user);
 }

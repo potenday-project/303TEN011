@@ -6,7 +6,7 @@ create table user
     id int AUTO_INCREMENT,
     email varchar(255) not null,
     nickname  varchar(25) not null,
-    kakaoId int,
+    kakao_id bigint,
 
     primary key (ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
