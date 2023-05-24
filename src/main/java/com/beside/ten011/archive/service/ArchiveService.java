@@ -18,7 +18,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,8 +33,17 @@ public class ArchiveService {
     private final ArchiveRepository archiveRepository;
 
     @Transactional(readOnly = true)
-    public PageCustom<ArchiveResponse> getArchiveResponsePageCustom(User user, Pageable pageable, String title) {
-        Page<ArchiveResponse> responsePage = archiveRepository.findAll(ArchiveSpec.searchWith(user.getId(), title), pageable)
+    public Map<String, List<Integer>> getTotalCreationDates(User user) {
+        return archiveRepository.getTotalCreationDates(user)
+                .stream()
+                .collect(Collectors.groupingBy(s -> s.split("-")[0],
+                        HashMap::new,
+                        Collectors.mapping(s -> Integer.parseInt(s.split("-")[1]), Collectors.toList())));
+    }
+
+    @Transactional(readOnly = true)
+    public PageCustom<ArchiveResponse> getArchiveResponsePageCustom(User user, Pageable pageable, String title, Integer year, Integer month) {
+        Page<ArchiveResponse> responsePage = archiveRepository.findAll(ArchiveSpec.searchWith(user.getId(), title, year, month), pageable)
                 .map(ArchiveResponse::fromEntity);
         return new PageCustom<>(responsePage.getContent(), responsePage.getPageable(), responsePage.getTotalElements());
     }
