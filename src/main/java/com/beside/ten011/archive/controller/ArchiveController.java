@@ -37,12 +37,11 @@ public class ArchiveController {
             @PageableDefault(sort = "createdDt", direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam(required = false) Integer year,
             @RequestParam(required = false) Integer month,
-            @RequestParam(required = false) String title) {
+            @RequestParam(required = false) String search) {
 
         Map<String, Object> map = new HashMap<>();
         map.put("totalCreationDate", archiveService.getTotalCreationDates((User) authentication.getPrincipal()));
-        map.put("archives", archiveService.getArchiveResponsePageCustom((User) authentication.getPrincipal(), pageable, title, year, month));
-        // TODO 검색 조건 수정
+        map.put("archives", archiveService.getArchiveResponsePageCustom((User) authentication.getPrincipal(), pageable, search, year, month));
         return ResponseEntity.ok(map);
     }
 

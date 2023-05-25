@@ -12,12 +12,15 @@ import java.util.List;
 
 
 public class ArchiveSpec {
-    public static Specification<Archive> searchWith(final Long userId, final String title,
+    public static Specification<Archive> searchWith(final Long userId, final String search,
                                                     final Integer year, final Integer month) {
         return ((root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
-            if (StringUtils.hasText(title)) {
-                predicates.add(builder.like(root.get("title"), "%" + title + "%"));
+            if (StringUtils.hasText(search)) {
+                Predicate title = builder.like(root.get("title"), "%" + search + "%");
+                Predicate author = builder.like(root.get("author"), "%" + search + "%");
+                Predicate content = builder.like(root.get("content"), "%" + search + "%");
+                predicates.add(builder.and(builder.or(title, author, content)));
             }
             if (userId != null) {
                 predicates.add(builder.equal(root.get("user"), userId));
