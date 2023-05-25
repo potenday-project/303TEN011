@@ -42,8 +42,8 @@ public class ArchiveService {
     }
 
     @Transactional(readOnly = true)
-    public PageCustom<ArchiveResponse> getArchiveResponsePageCustom(User user, Pageable pageable, String title, Integer year, Integer month) {
-        Page<ArchiveResponse> responsePage = archiveRepository.findAll(ArchiveSpec.searchWith(user.getId(), title, year, month), pageable)
+    public PageCustom<ArchiveResponse> getArchiveResponsePageCustom(User user, Pageable pageable, String search, Integer year, Integer month) {
+        Page<ArchiveResponse> responsePage = archiveRepository.findAll(ArchiveSpec.searchWith(user.getId(), search, year, month), pageable)
                 .map(ArchiveResponse::fromEntity);
         return new PageCustom<>(responsePage.getContent(), responsePage.getPageable(), responsePage.getTotalElements());
     }
