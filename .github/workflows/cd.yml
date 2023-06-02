@@ -38,7 +38,7 @@ jobs:
       env:
         jasypt.encryptor.password: ${{ secrets.JASYPT_PW }}
         server.ssl.key-store-password: ${{ secrets.SSL_PW }}
-
+        social.kakao.redirect: https://one-line-a-day-kappa.vercel.app/oauth/kakao/redirect
 
 
     ## Gradle 사용권한 셋팅
